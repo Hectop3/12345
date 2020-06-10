@@ -33,16 +33,16 @@ class DoubleList(object):
         self.head = None
         self.tail = None
         self.size = 0
-        self.insidelist = []
+        self.content = []
         self.x = None
 
     def add(self, data):
         if data is None:
             return False
         else:
-            if data not in self.insidelist:
+            if data not in self.content:
                 new_node = ListNode(data, None, None)
-                self.insidelist.append(data)
+                self.content.append(data)
                 self.size += 1
                 if self.head is None:
                     self.head = self.tail = new_node
@@ -62,9 +62,9 @@ class DoubleList(object):
             return False
         else:
             for i in args:
-                if i not in self.insidelist:
+                if i not in self.content:
                     new_node = ListNode(i, None, None)
-                    self.insidelist.append(i)
+                    self.content.append(i)
                     self.size += 1
                     trigger += 1
                     if self.head is None:
@@ -84,11 +84,11 @@ class DoubleList(object):
         if node_value is None:
             return False
         current_node = self.head
-        if node_value in self.insidelist:
+        if node_value in self.content:
             while current_node is not None:
                 if current_node.data == node_value:
                     self.size -= 1
-                    self.insidelist.remove(node_value)
+                    self.content.remove(node_value)
                     if current_node.prev is not None and current_node.next is not None:
                         current_node.prev.next = current_node.next
                         current_node.next.prev = current_node.prev
@@ -103,7 +103,7 @@ class DoubleList(object):
         else:
             print("Element {0} not in set".format(node_value))
             return False
-        return self.insidelist
+        return self.content
 
     def removeAll(self, *args):
         trigger = 0
@@ -112,11 +112,11 @@ class DoubleList(object):
         else:
             for i in args:
                     current_node = self.head
-                    if i in self.insidelist:
+                    if i in self.content:
                         while current_node is not None:
                             if current_node.data == i:
                                 self.size -= 1
-                                self.insidelist.remove(i)
+                                self.content.remove(i)
                                 trigger += 1
                                 if current_node.prev is not None and current_node.next is not None:
                                     current_node.prev.next = current_node.next
@@ -133,11 +133,11 @@ class DoubleList(object):
                         print("Element {0} not in set".format(i))
         if trigger == 0:
             return False
-        return self.insidelist
+        return self.content
 
     def clearAll(self):
         current_node = self.head
-        self.insidelist.clear()
+        self.content.clear()
         while current_node is not None:
             self.size -= 1
             if current_node.prev is None:
@@ -178,7 +178,7 @@ class DoubleList(object):
             return False
         if len(args) == self.size:
             for i in args:
-                if i in self.insidelist:
+                if i in self.content:
                     continue
                 else:
                     print("Not equal")
@@ -188,13 +188,9 @@ class DoubleList(object):
             return False
         return True
 
-    # повертає множину у вигляді массиву
 
     def toArray(self):
-        return self.insidelist
-
-    # повертає True якщо поточна множина порожня
-    # в іншому випадку повертає False
+        return self.content
 
     def isEmpty(self):
         if self.size == 0:
@@ -202,9 +198,6 @@ class DoubleList(object):
         else:
             return False
 
-    # повертає True якщо поточна множина містить
-    # елемент  переданий у функцію,
-    # в іншому випадку повертає False
 
     def contains(self, data = None):
         if data is None:
@@ -217,9 +210,6 @@ class DoubleList(object):
                 current_node = current_node.next
         return False
 
-    # повертає True якщо поточна множина містить
-    # усі елементи множини переданої у функцію,
-    # в іншому випадку повертає False
 
     def containsAll(self, *args):
         if len(args) == 0:
@@ -239,17 +229,13 @@ class DoubleList(object):
         else:
             return False
 
-    # видаляє з поточної множини елементи яких немає у множині,
-    # що передається в якості параметра
-    # повертає True якщо поточна множина була змінена
-    # False якщо не була змінена
 
     def retainAll(self, *args):
         if len(args) == 0 or self.size == 0:
             return False
         using = [i for i in args]
         for f in using:
-            if f not  in self.insidelist:
+            if f not  in self.content:
                 using.remove(f)
                 if len(using) == 0:
                     return False
@@ -293,7 +279,7 @@ class DoubleList(object):
     def __setitem__(self, index, value):
         if index > self.size or index < 0:
             raise IndexError
-        if value is None or value in self.insidelist:
+        if value is None or value in self.content:
             raise AttributeError
         if index == 0 and self.head is not None:
             self.size += 1
